@@ -8,9 +8,9 @@ Use **AIOStreams v2.35 or newer** for the visual-tag deduplication and per-langu
 
 | Formatter | Name field | Description |
 | --- | --- | --- |
-| [jeormatter.json](jeormatter.json) | Title, year and episode when available | Four lines: video, audio/subtitles, size, source |
-| [jeormatter_alt.json](jeormatter_alt.json) | Resolution, quality, tier, codec and visual tags | Four lines: title, audio/subtitles, size, source |
-| [jeormatter_filename.json](jeormatter_filename.json) | Title, year and episode when available | Standard layout plus the original filename on a fifth line |
+| [jeormatter.json](jeormatter.json) | Title, year and episode when available | Up to five lines: video, audio, languages/subtitles, size, source |
+| [jeormatter_alt.json](jeormatter_alt.json) | Resolution, quality, tier, codec and visual tags | Up to five lines: title, audio, languages/subtitles, size, source |
+| [jeormatter_filename.json](jeormatter_filename.json) | Title, year and episode when available | Standard layout plus the original filename on a sixth line |
 
 ## Previews
 
@@ -30,7 +30,8 @@ Example Movie (2026)
 
 ```text
 ✦ 4K · WEB-DL T1 · HEVC · DV/HDR10
-♬ DD+ 5.1 · EN/EN[AD] · SUB EN/EN[Forced]/EN[SDH]
+♬ DD+ 5.1
+🌐 EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 ```
@@ -51,7 +52,8 @@ Moves the video details into the name field, making resolution and quality easie
 
 ```text
 ✦ Example Movie (2026)
-♬ DD+ 5.1 · EN/EN[AD] · SUB EN/EN[Forced]/EN[SDH]
+♬ DD+ 5.1
+🌐 EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 ```
@@ -72,7 +74,8 @@ Example Movie (2026)
 
 ```text
 ✦ 4K · WEB-DL T1 · HEVC · DV/HDR10
-♬ DD+ 5.1 · EN/EN[AD] · SUB EN/EN[Forced]/EN[SDH]
+♬ DD+ 5.1
+🌐 EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 Example.Movie.2026.2160p.WEB-DL.HEVC.DDP5.1.DV.HDR10-GROUP.mkv
@@ -85,9 +88,9 @@ Example.Movie.2026.2160p.WEB-DL.HEVC.DDP5.1.DV.HDR10-GROUP.mkv
 - **T1–T10** appears when a matching ranked stream expression supplies a tier, such as `Web T1`. It is not a rating the formatter calculates.
 - **DV/HDR10** shows distinct visual tags. Duplicate entries are removed before display.
 - **HEVC / AVC / AV1** shows the video codec when known.
-- **EN / SUB EN** reflects your configured audio and subtitle languages. When matching probed tracks exist, each language carries its own labels. Up to three distinct rendered entries are shown per audio/subtitle list, with `+` when more exist. Duplicate entries are removed. Otherwise, the original fallback shows up to two language codes with `+` for more.
+- **EN / SUB EN** reflects your configured audio and subtitle languages. When matching probed tracks exist, each language carries its own labels. Up to two distinct rendered entries are shown per audio/subtitle list, with `+` when more exist. Duplicate entries are removed. Otherwise, the original fallback shows up to two language codes with `+` for more.
 - **[AD] / [Comm]** identifies audio description or commentary using track flags and descriptive track titles.
-- **[Forced]** checks the forced flag or a track title containing `forced`.
+- **[F]** means forced subtitles and checks the forced flag or a track title containing `forced`.
 - **[SDH]** checks the hearing-impaired flag, a title containing `SDH` or `closed caption`, or a title equal to `CC`. It also applies to anime; CC alone is not treated as a dubtitle.
 - **[Signs] / [Dub]** identifies track titles containing `signs` or `dubtitle`. Signs are not automatically marked as forced. A track can carry multiple labels.
 - Track-title checks are case-insensitive hints, not guarantees. Missing labels do not prove those track types are absent. Track labels describe available tracks, not the player's current selection.
@@ -104,10 +107,14 @@ Depending on the available metadata, the language portion can show:
 ```text
 EN/EN[Comm]                  Audio with a commentary track
 EN[AD]                       Audio description
-SUB EN[Forced]               Forced subtitle track
+SUB EN[F]               Forced subtitle track
 SUB EN[SDH]                  Subtitles for deaf/hard-of-hearing viewers
 SUB EN[Signs]/EN[Dub]         Separate signs and explicitly named dubtitles
-SUB EN/EN[Forced]/EN[SDH]+    More than three distinct subtitle entries
+SUB EN/EN[F]+               More than two distinct subtitle entries
 ```
 
 Track-detail ideas were inspired by [Tam-Taro's v3.2.9 formatters](https://github.com/Tam-Taro/SEL-Filtering-and-Sorting/blob/main/CHANGELOG.md#329-2026-10-05), adapted to Jeormatter's compact layouts and conservative labels.
+
+## Compact display
+
+Audio formats and channel counts have their own line. Languages and subtitles appear on a separate 🌐 line, omitted when none are known. Probed track lists show at most two distinct entries each, with `+` for additional entries. Audio-language text is capped at 18 characters and subtitle-language text at 28; `…` means text was shortened. Some clients may still wrap long lines, and the filename variant intentionally retains the full filename.
