@@ -31,7 +31,7 @@ Example Movie (2026)
 ```text
 ✦ 4K · WEB-DL T1 · HEVC · DV/HDR10
 ♬ DD+ 5.1
-文 EN/EN[AD] · SUB EN/EN[F]+
+🗨︎ EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 ```
@@ -53,7 +53,7 @@ Moves the video details into the name field, making resolution and quality easie
 ```text
 ✦ Example Movie (2026)
 ♬ DD+ 5.1
-文 EN/EN[AD] · SUB EN/EN[F]+
+🗨︎ EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 ```
@@ -75,7 +75,7 @@ Example Movie (2026)
 ```text
 ✦ 4K · WEB-DL T1 · HEVC · DV/HDR10
 ♬ DD+ 5.1
-文 EN/EN[AD] · SUB EN/EN[F]+
+🗨︎ EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 Example.Movie.2026.2160p.WEB-DL.HEVC.DDP5.1.DV.HDR10-GROUP.mkv
@@ -117,4 +117,4 @@ Track-detail ideas were inspired by [Tam-Taro's v3.2.9 formatters](https://githu
 
 ## Compact display
 
-Audio formats and channel counts have their own line. Languages and subtitles appear on a separate 文 line, omitted when none are known. Probed track lists show at most two distinct entries each, with `+` for additional entries. Audio-language text is capped at 18 characters and subtitle-language text at 28; `…` means text was shortened. Some clients may still wrap long lines, and the filename variant intentionally retains the full filename.
+Audio formats and channel counts have their own line. Languages and subtitles appear on a separate 🗨︎ line, omitted when none are known. Probed track lists show at most two distinct entries each, with `+` for additional entries. Audio-language text is capped at 18 characters and subtitle-language text at 28; `…` means text was shortened. Some clients may still wrap long lines, and the filename variant intentionally retains the full filename.
