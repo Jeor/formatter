@@ -8,9 +8,9 @@ Use **AIOStreams v2.35 or newer** for the visual-tag deduplication and per-langu
 
 | Formatter | Name field | Description |
 | --- | --- | --- |
-| [jeormatter.json](jeormatter.json) | Title, year and episode when available | Up to five lines: video, audio, languages/subtitles, size, source |
-| [jeormatter_alt.json](jeormatter_alt.json) | Resolution, quality, tier, codec and visual tags | Up to five lines: title, audio, languages/subtitles, size, source |
-| [jeormatter_filename.json](jeormatter_filename.json) | Title, year and episode when available | Standard layout plus the original filename on a sixth line |
+| [jeormatter.json](jeormatter.json) | Title, year and episode when available | Four lines, or five when audio/language details are long |
+| [jeormatter_alt.json](jeormatter_alt.json) | Resolution, quality, tier, codec and visual tags | Four lines, or five when audio/language details are long |
+| [jeormatter_filename.json](jeormatter_filename.json) | Title, year and episode when available | Standard layout plus the original filename (five or six lines) |
 
 ## Previews
 
@@ -31,7 +31,7 @@ Example Movie (2026)
 ```text
 ✦ 4K · WEB-DL T1 · HEVC · DV/HDR10
 ♬ DD+ 5.1
-🗨︎ EN/EN[AD] · SUB EN/EN[F]+
+  EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 ```
@@ -53,7 +53,7 @@ Moves the video details into the name field, making resolution and quality easie
 ```text
 ✦ Example Movie (2026)
 ♬ DD+ 5.1
-🗨︎ EN/EN[AD] · SUB EN/EN[F]+
+  EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 ```
@@ -75,7 +75,7 @@ Example Movie (2026)
 ```text
 ✦ 4K · WEB-DL T1 · HEVC · DV/HDR10
 ♬ DD+ 5.1
-🗨︎ EN/EN[AD] · SUB EN/EN[F]+
+  EN/EN[AD] · SUB EN/EN[F]+
 ◈ 20 GiB · 25 Mbps
 ⛉ [RD] Torrentio · GROUP
 Example.Movie.2026.2160p.WEB-DL.HEVC.DDP5.1.DV.HDR10-GROUP.mkv
@@ -115,6 +115,22 @@ SUB EN/EN[F]+               More than two distinct subtitle entries
 
 Track-detail ideas were inspired by [Tam-Taro's v3.2.9 formatters](https://github.com/Tam-Taro/SEL-Filtering-and-Sorting/blob/main/CHANGELOG.md#329-2026-10-05), adapted to Jeormatter's compact layouts and conservative labels.
 
-## Compact display
+## Adaptive audio layout
 
-Audio formats and channel counts have their own line. Languages and subtitles appear on a separate 🗨︎ line, omitted when none are known. Probed track lists show at most two distinct entries each, with `+` for additional entries. Audio-language text is capped at 18 characters and subtitle-language text at 28; `…` means text was shortened. Some clients may still wrap long lines, and the filename variant intentionally retains the full filename.
+Short language and subtitle details stay on the audio line:
+
+```text
+♬ TrueHD 5.1 · JA
+♬ DTS-HD MA 5.1 · JA/EN · SUB EN/EN[F]
+```
+
+Longer details move to an indented continuation line, without a language icon:
+
+```text
+♬ Atmos/DD/FLAC/TrueHD 7.1/5.1
+  JA/EN · SUB EN/EN[F]
+```
+
+The break uses conservative text-length checks, not the device's pixel width. It occurs when displayed audio-format text exceeds 14 characters, channel text exceeds 5, probed audio-language text exceeds 8, or probed subtitle-language text exceeds 14. It is added only when language/subtitle details exist. Two nonbreaking spaces indent the continuation.
+
+Track lists still show at most two distinct entries each, with `+` for additional entries. Audio-language text is capped at 18 characters and subtitle-language text at 28; `…` means text was shortened. Actual wrapping depends on your client and font. The filename variant retains the full filename.
